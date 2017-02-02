@@ -81,6 +81,7 @@ class DungeonGame(object):
                 elif self.actions.treasure is not None and picked_up_treasure is None:
                     picked_up_treasure = self.pick_up_treasure()
                 elif self.actions.downstairs == 1:
+                    found_start_position = True
                     picked_up_treasure = None
                     print "downstairs?"
                     print "action down: ", self.actions.downstairs
@@ -257,7 +258,7 @@ class DungeonGameHtmlParser(object):
         stats = Stats(level, health)
         inventory = stats_list[2][0].split("\n")
 
-        stats.inventory = filter(lambda e: "potion" in e, inventory)
+        stats.inventory = [e for e in inventory if "potion" in e]
         stats.weapon = DungeonGameHtmlParser.parse_weapon(stats_list[1][3])
 
         soup_dungeon_level_html = self.parser.find('h2')
